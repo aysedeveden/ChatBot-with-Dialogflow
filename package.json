@@ -1,0 +1,22 @@
+{
+    "name": "chatbot",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+      "dialogflow-fulfillment": "^0.6.1",
+      "express": "^4.19.2",
+      "googleapis": "^134.0.0"
+    },
+    "devDependencies": {
+      "@types/dialogflow-fulfillment": "^0.6.1",
+      "nodemon": "^3.1.0"
+    }
+  }
+  

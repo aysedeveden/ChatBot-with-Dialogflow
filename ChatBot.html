@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dialogflow ve Google Takvim Entegrasyonu</title>
+</head>
+<body>
+<h1>Dialogflow ve Google Takvim Entegrasyonu</h1>
+
+<iframe 
+    width="350" 
+    height="430" 
+    allow="microphone;" 
+    src="https://console.dialogflow.com/api-client/demo/embedded/d172d0c9-89f7-4879-8504-ad7dbcab9fca">
+</iframe>
+<script>
+// Google Takvim API'sine erişim sağlayacak JavaScript kodu
+// Öncelikle Google API Client Library'yi yüklemeniz gerekebilir
+
+// Google Takvim API'si için API anahtarınızı buraya ekleyin
+const API_KEY = 'yoursapikey';
+
+// Takvim API'sine erişim sağlamak için gerekli kodlar
+function listUpcomingEvents() {
+    gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+    }).then(function() {
+        return gapi.client.calendar.events.list({
+            'calendarId': 'primary',
+            'timeMin': (new Date()).toISOString(),
+            'showDeleted': false,
+            'singleEvents': true,
+            'maxResults': 10,
+            'orderBy': 'startTime'
+        });
+    }).then(function(response) {
+        const events = response.result.items;
+        appendEvents(events);
+    }).catch(function(error) {
+        console.error('Error fetching upcoming events: ' + error);
+    });
+}
+
+// HTML'e etkinlikleri ekleyen fonksiyon
+function appendEvents(events) {
+    const eventsDiv = document.getElementById('events');
+    eventsDiv.innerHTML = '';
+    events.forEach(function(event) {
+        const eventDiv = document.createElement('div');
+        eventDiv.innerText = event.summary + ' - ' + event.start.dateTime;
+        eventsDiv.appendChild(eventDiv);
+    });
+}
+
+// Google API Client Library'yi yükleyin
+function handleClientLoad() {
+    gapi.load('client', initClient);
+}
+
+function initClient() {
+    // API anahtarını yükleyin
+    gapi.client.setApiKey(API_KEY);
+    // Gerekli API'yi yükleyin ve ardından istenen işlemleri gerçekleştirin
+    gapi.client.load('calendar', 'v3', function() {
+        console.log('Google Takvim API yüklendi');
+    });
+}
+</script>
+
+<!-- Google API Client Library'yi yüklemek için gerekli kod -->
+<script src="https://apis.google.com/js/api.js" async defer></script>
+<script src="https://apis.google.com/js/platform.js?onload=handleClientLoad" async defer></script>
+</body>
+</html>

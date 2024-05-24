@@ -1,0 +1,8 @@
+authtoken: // your authoken
+tunnels:
+  first-tunnel:
+    addr: 3000
+    proto: http
+  second-tunnel:
+    addr: 8080
+    proto: http
